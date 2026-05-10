@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>969 — Join Section Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f5f5f0;
+    --fg-dim: #888;
+    --fg-muted: #2a2a2a;
+    --accent: #D8E63C;
+    --serif: 'Syne', sans-serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: var(--sans); font-weight: 300;
+  }
+
+  .toc {
+    position: fixed; top: 24px; right: 24px; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--fg-muted);
+    padding: 16px 20px;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    display: flex; flex-direction: column; gap: 8px;
+    min-width: 220px;
+  }
+  .toc-title { color: var(--fg-dim); font-size: 9px; padding-bottom: 4px; border-bottom: 1px solid var(--fg-muted); margin-bottom: 4px; }
+  .toc a {
+    color: var(--fg); text-decoration: none;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a .num { color: var(--fg-dim); font-family: var(--mono); }
+
+  .variant {
+    min-height: 100vh;
+    padding: 100px 48px;
+    border-top: 1px solid var(--fg-muted);
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .variant:first-of-type { border-top: none; }
+  .variant-tag {
+    position: absolute; top: 24px; left: 48px;
+    font-family: var(--mono);
+    font-size: 11px; color: var(--fg-dim);
+    letter-spacing: 0.1em;
+  }
+  .variant-tag strong { color: var(--accent); font-weight: 500; }
+
+  .inner { max-width: 1280px; margin: 0 auto; width: 100%; }
+
+  /* ═══════════════════════════════════════════════════
+     V1 — OVERSIZED MONO / TERMINAL
+     ═══════════════════════════════════════════════════ */
+  .v1 { background: #0a0a0a; }
+  .v1 .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 40px;
+  }
+  .v1 .eyebrow::before { content: '>> '; }
+  .v1 h2 {
+    font-family: var(--serif);
+    font-size: clamp(72px, 12vw, 180px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    margin-bottom: 56px;
+    text-transform: uppercase;
+  }
+  .v1 h2 em {
+    font-style: normal;
+    color: var(--bg);
+    -webkit-text-stroke: 1.5px var(--fg);
+  }
+  .v1 .form-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--fg);
+    max-width: 640px;
+  }
+  .v1 .form-row input {
+    flex: 1;
+    background: transparent; border: none; outline: none;
+    padding: 22px 24px;
+    font-family: var(--mono);
+    font-size: 14px; color: var(--fg);
+    letter-spacing: 0.05em;
+  }
+  .v1 .form-row input::placeholder { color: var(--fg-dim); }
+  .v1 .form-row button {
+    background: var(--accent); color: #000;
+    border: none; cursor: pointer;
+    padding: 0 32px;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .v1 .form-meta {
+    font-family: var(--mono);
+    font-size: 11px; color: var(--fg-dim);
+    margin-top: 20px;
+    display: flex; gap: 24px;
+  }
+  .v1 .form-meta span::before { content: '// '; }
+
+  /* ═══════════════════════════════════════════════════
+     V2 — EDITORIAL / THIN SERIF
+     ═══════════════════════════════════════════════════ */
+  .v2 { background: #0a0a0a; }
+  .v2 .inner { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center; }
+  .v2 .col-l { border-right: 1px solid var(--fg-muted); padding-right: 120px; padding-top: 40px; padding-bottom: 40px; margin-right: -120px; }
+  .v2 .eyebrow {
+    font-size: 11px; color: var(--fg-dim);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .v2 h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(72px, 10vw, 160px);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+  .v2 h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .v2 .sub {
+    font-size: 16px; line-height: 1.6;
+    color: var(--fg-dim); max-width: 380px;
+  }
+  .v2 form {
+    display: flex; flex-direction: column; gap: 24px;
+    max-width: 440px;
+  }
+  .v2 .label {
+    font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--fg-dim);
+  }
+  .v2 .field {
+    border-bottom: 1px solid var(--fg-muted);
+    transition: border-color 0.3s;
+  }
+  .v2 .field:focus-within { border-color: var(--accent); }
+  .v2 .field input {
+    width: 100%; background: none; border: none; outline: none;
+    padding: 16px 0;
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; color: var(--fg);
+  }
+  .v2 .field input::placeholder { color: var(--fg-dim); opacity: 0.4; }
+  .v2 button {
+    align-self: flex-start;
+    background: none; color: var(--fg);
+    border: 1px solid var(--fg);
+    padding: 16px 32px;
+    font-size: 11px; letter-spacing: 0.25em;
+    text-transform: uppercase; cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 8px;
+  }
+  .v2 button:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+  .v2 .privacy { font-size: 11px; color: var(--fg-dim); letter-spacing: 0.05em; }
+
+  /* ═══════════════════════════════════════════════════
+     V3 — POSTER / TICKET STUB
+     ═══════════════════════════════════════════════════ */
+  .v3 { background: var(--accent); color: #0a0a0a; }
+  .v3 .variant-tag, .v3 .variant-tag strong { color: rgba(0,0,0,0.6); }
+  .v3 .inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: stretch; }
+  .v3 .ticket {
+    background: #0a0a0a; color: var(--accent);
+    padding: 60px 56px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    min-height: 480px;
+  }
+  .v3 .ticket::before, .v3 .ticket::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .v3 .ticket::before { top: -16px; }
+  .v3 .ticket::after { bottom: -16px; }
+  .v3 .ticket-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(216,230,60,0.5);
+    padding-bottom: 24px;
+    border-bottom: 1px dashed rgba(216,230,60,0.3);
+  }
+  .v3 .ticket-title {
+    font-family: var(--serif);
+    font-size: clamp(48px, 5vw, 80px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin: 48px 0;
+    color: var(--accent);
+  }
+  .v3 .ticket-foot {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .v3 .ticket-foot .barcode {
+    display: flex; gap: 2px; align-items: flex-end;
+  }
+  .v3 .ticket-foot .barcode span {
+    display: block; width: 2px; background: var(--accent);
+  }
+  .v3 .copy-side { padding: 60px 0; display: flex; flex-direction: column; justify-content: center; gap: 32px; }
+  .v3 .copy-side h3 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 4.5vw, 64px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .v3 .copy-side p {
+    font-size: 15px; line-height: 1.55;
+    max-width: 380px;
+  }
+  .v3 form { display: flex; flex-direction: column; gap: 14px; max-width: 420px; }
+  .v3 form input {
+    background: transparent;
+    border: none; border-bottom: 2px solid #0a0a0a;
+    outline: none;
+    padding: 14px 0;
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 600;
+    color: #0a0a0a;
+  }
+  .v3 form input::placeholder { color: rgba(0,0,0,0.4); }
+  .v3 form button {
+    align-self: flex-start;
+    background: #0a0a0a; color: var(--accent);
+    border: none;
+    padding: 18px 40px;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     V4 — MARQUEE / UNDERGROUND
+     ═══════════════════════════════════════════════════ */
+  .v4 { background: #0a0a0a; padding: 0; min-height: 100vh; overflow: hidden; }
+  .v4 .inner { padding: 100px 48px; }
+  .v4 .marquee-top, .v4 .marquee-bot {
+    border-block: 1px solid var(--fg-muted);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 18px 0;
+    margin: 24px 0;
+  }
+  .v4 .marquee-top .track, .v4 .marquee-bot .track {
+    display: inline-flex; gap: 48px;
+    font-family: var(--serif); font-weight: 700;
+    font-size: 18px; letter-spacing: -0.01em;
+    animation: v4slide 30s linear infinite;
+    color: var(--fg);
+  }
+  .v4 .marquee-bot .track { animation-direction: reverse; }
+  .v4 .marquee-top .track span.accent, .v4 .marquee-bot .track span.accent { color: var(--accent); font-style: italic; }
+  @keyframes v4slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .v4 .center {
+    text-align: center;
+    padding: 80px 0;
+  }
+  .v4 .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px; color: var(--fg-dim);
+    letter-spacing: 0.3em;
+    margin-bottom: 32px;
+  }
+  .v4 h2 {
+    font-family: var(--serif);
+    font-size: clamp(80px, 14vw, 200px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    margin-bottom: 48px;
+  }
+  .v4 h2 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .v4 .center-form {
+    max-width: 520px; margin: 0 auto;
+    display: flex;
+    border: 1px solid var(--fg);
+    background: rgba(255,255,255,0.02);
+  }
+  .v4 .center-form input {
+    flex: 1;
+    background: none; border: none; outline: none;
+    padding: 20px 24px;
+    font-family: var(--serif);
+    font-size: 18px; color: var(--fg);
+    text-align: center;
+  }
+  .v4 .center-form input::placeholder { color: var(--fg-dim); }
+  .v4 .center-form button {
+    background: var(--accent); color: #000;
+    border: none; cursor: pointer;
+    padding: 0 28px;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .v4 .center-meta {
+    display: flex; justify-content: center; gap: 24px;
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 10px; color: var(--fg-dim);
+    letter-spacing: 0.2em;
+  }
+
+  @media (max-width: 900px) {
+    .variant { padding: 80px 20px; }
+    .variant-tag { left: 20px; }
+    .toc { right: 16px; top: 16px; min-width: 180px; padding: 12px; }
+    .v2 .inner, .v3 .inner { grid-template-columns: 1fr; gap: 40px; }
+    .v2 .col-l { border-right: none; padding-right: 0; margin-right: 0; border-bottom: 1px solid var(--fg-muted); padding-bottom: 40px; }
+    .v3 .ticket { min-height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <div class="toc-title">Join · Variants</div>
+  <a href="#v1"><span>V1 — Terminal</span><span class="num">01</span></a>
+  <a href="#v2"><span>V2 — Editorial</span><span class="num">02</span></a>
+  <a href="#v3"><span>V3 — Ticket stub</span><span class="num">03</span></a>
+  <a href="#v4"><span>V4 — Marquee</span><span class="num">04</span></a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ V1 -->
+<section id="v1" class="variant v1">
+  <div class="variant-tag">V1 / <strong>Terminal</strong> — Mono + oversized outline</div>
+  <div class="inner">
+    <div class="eyebrow">family.subscribe</div>
+    <h2>Don't miss<br>the <em>next one</em>.</h2>
+    <div class="form-row">
+      <input type="email" placeholder="enter your email...">
+      <button>Count me in →</button>
+    </div>
+    <div class="form-meta">
+      <span>no spam, ever</span>
+      <span>unsubscribe anytime</span>
+      <span>we will not share your data</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ V2 -->
+<section id="v2" class="variant v2">
+  <div class="variant-tag">V2 / <strong>Editorial</strong> — Thin serif, split layout, airy</div>
+  <div class="inner">
+    <div class="col-l">
+      <div class="eyebrow">— Join the family</div>
+      <h2>Don't miss<br>the <em>next one.</em></h2>
+      <p class="sub">Event drops, guest lists, renegade locations, and mixes from the residents — straight to your inbox.</p>
+    </div>
+    <form>
+      <div class="label">Your email</div>
+      <div class="field"><input type="email" placeholder="you@somewhere.com"></div>
+      <button type="submit">Count me in →</button>
+      <div class="privacy">No spam. Unsubscribe anytime.</div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ V3 -->
+<section id="v3" class="variant v3">
+  <div class="variant-tag">V3 / <strong>Ticket stub</strong> — Full-bleed yellow + ticket side</div>
+  <div class="inner">
+    <div class="ticket">
+      <div class="ticket-head">
+        <div>969 · Family Pass</div>
+        <div>No. ∞</div>
+      </div>
+      <div class="ticket-title">Admit<br>one.</div>
+      <div class="ticket-foot">
+        <div>San Francisco<br>Est. 2025</div>
+        <div class="barcode">
+          <span style="height:24px"></span><span style="height:20px"></span><span style="height:26px"></span>
+          <span style="height:18px"></span><span style="height:24px"></span><span style="height:22px"></span>
+          <span style="height:26px"></span><span style="height:20px"></span><span style="height:24px"></span>
+          <span style="height:18px"></span><span style="height:26px"></span><span style="height:22px"></span>
+        </div>
+      </div>
+    </div>
+    <div class="copy-side">
+      <h3>Don't miss the next one.</h3>
+      <p>Event drops, guest lists, renegade locations — straight to your inbox.</p>
+      <form>
+        <input type="email" placeholder="you@somewhere.com">
+        <button type="submit">Count me in →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ V4 -->
+<section id="v4" class="variant v4">
+  <div class="variant-tag">V4 / <strong>Marquee</strong> — Scrolling ribbons, centered bold moment</div>
+  <div class="inner">
+    <div class="marquee-top">
+      <div class="track">
+        <span>Techno</span><span>•</span><span class="accent"><em>renegades</em></span><span>•</span>
+        <span>Guest lists</span><span>•</span><span class="accent"><em>mixes</em></span><span>•</span>
+        <span>SF Underground</span><span>•</span><span class="accent"><em>early access</em></span><span>•</span>
+        <span>Techno</span><span>•</span><span class="accent"><em>renegades</em></span><span>•</span>
+        <span>Guest lists</span><span>•</span><span class="accent"><em>mixes</em></span><span>•</span>
+        <span>SF Underground</span><span>•</span><span class="accent"><em>early access</em></span><span>•</span>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="eyebrow">JOIN THE FAMILY</div>
+      <h2>Don't miss<br>the <em>next one</em>.</h2>
+      <div class="center-form">
+        <input type="email" placeholder="you@somewhere.com">
+        <button>Join →</button>
+      </div>
+      <div class="center-meta">
+        <span>NO SPAM</span>
+        <span>·</span>
+        <span>UNSUBSCRIBE ANYTIME</span>
+      </div>
+    </div>
+
+    <div class="marquee-bot">
+      <div class="track">
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+        <span class="accent"><em>969</em></span><span>•</span><span>Family</span><span>•</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

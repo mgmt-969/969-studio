@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<template id="__bundler_thumbnail" data-bg-color="#080808">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#080808"/>
+    <text x="600" y="460" font-family="serif" font-weight="800" font-size="320" fill="#f0eee9" text-anchor="middle" letter-spacing="-12">969</text>
+    <text x="600" y="540" font-family="sans-serif" font-size="28" fill="#D8E63C" text-anchor="middle" letter-spacing="8">SAN FRANCISCO</text>
+  </svg>
+</template>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>969 Studio  Creative Direction, CGI & Audiovisual Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080808;
+    --fg: #f0eee9;
+    --fg-dim: rgba(240,238,233,0.45);
+    --fg-muted: rgba(240,238,233,0.15);
+    --accent: #D8E63C;
+    --accent2: #D6B4FC;
+    --accent3: #D3DDE7;
+    --serif: 'Syne', sans-serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; background: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+    opacity: 1;
+  }
+
+  /* ── CURSOR ── */
+  #cursor-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--fg);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(240,237,230,0.5);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+  body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
+  body.cursor-hover #cursor-ring { width: 60px; height: 60px; opacity: 0.6; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 48px;
+    mix-blend-mode: difference;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(240,237,230,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(240,237,230,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .hero-year {
+    position: absolute;
+    top: 50%;
+    right: 48px;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+
+  .hero-main {
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: clamp(96px, 16vw, 240px);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fg);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 1s cubic-bezier(0.23,1,0.32,1) 0.2s forwards;
+  }
+
+  .hero-title span.outline {
+    -webkit-text-stroke: 1.5px var(--fg);
+    color: transparent;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 40px;
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.23,1,0.32,1) 0.5s forwards;
+  }
+
+  .hero-tagline {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--fg-dim);
+    max-width: 380px;
+    line-height: 1.7;
+  }
+
+  .hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--fg-dim);
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--fg-muted);
+    border-bottom: 1px solid var(--fg-muted);
+    padding: 18px 0;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker 28s linear infinite;
+  }
+  .ticker-item {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    padding: 0 48px;
+  }
+  .ticker-item span { color: var(--accent); margin-right: 48px; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--fg-dim);
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    padding: 120px 48px;
+  }
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+  .projects-title {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: 16px;
+  }
+  .projects-count {
+    font-size: 12px;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+  }
+
+  .project-item {
+    position: relative;
+    overflow: hidden;
+    background: #161410;
+    cursor: none;
+  }
+
+  .project-item:nth-child(1) { grid-column: span 7; aspect-ratio: 16/9; }
+  .project-item:nth-child(2) { grid-column: span 5; aspect-ratio: 4/3; }
+  .project-item:nth-child(3) { grid-column: span 5; aspect-ratio: 4/5; }
+  .project-item:nth-child(4) { grid-column: span 3; aspect-ratio: 3/4; }
+  .project-item:nth-child(5) { grid-column: span 4; aspect-ratio: 5/6; }
+  .project-item:nth-child(6) { grid-column: span 6; aspect-ratio: 16/9; }
+  .project-item:nth-child(7) { grid-column: span 6; aspect-ratio: 16/9; }
+
+  .project-thumb {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Striped placeholder */
+  .project-placeholder {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .stripe-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.7s cubic-bezier(0.23,1,0.32,1);
+  }
+  .project-item:hover .stripe-bg { transform: scale(1.05); }
+
+  .project-label {
+    position: relative; z-index: 2;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .project-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.3) 50%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    opacity: 1;
+    z-index: 3;
+  }
+  .project-item:hover .project-overlay { background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.5) 60%, rgba(8,8,8,0.1) 100%); }
+  .project-cat, .project-name, .project-year {
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+  }
+  .project-item:hover .project-cat { transform: translateY(-4px); }
+  .project-item:hover .project-name { transform: translateY(-6px); }
+  .project-item:hover .project-year { transform: translateY(-4px); }
+
+  .project-cat {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .project-name {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--fg);
+  }
+  .project-year {
+    font-size: 11px;
+    color: var(--fg-dim);
+    margin-top: 6px;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 120px 48px;
+    border-top: 1px solid var(--fg-muted);
+  }
+
+  .services-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 64px;
+  }
+
+  .services-intro {
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-family: var(--serif);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+  .services-intro em {
+    font-style: italic;
+    color: var(--fg-dim);
+  }
+
+  .services-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--fg-muted);
+    transition: border-color 0.2s;
+    cursor: none;
+  }
+  .service-row:first-child { border-top: 1px solid var(--fg-muted); }
+  .service-row:hover { border-color: rgba(240,237,230,0.35); }
+
+  .service-name {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+  .service-row:hover .service-name { color: var(--accent); }
+
+  .service-arrow {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--fg-muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: transform 0.3s, border-color 0.2s;
+  }
+  .service-row:hover .service-arrow {
+    transform: rotate(45deg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── CLIENTS ── */
+  #clients {
+    padding: 80px 48px;
+    border-top: 1px solid var(--fg-muted);
+  }
+  .clients-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 48px;
+  }
+  .client-name {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    color: var(--fg-muted);
+    transition: color 0.3s;
+    padding: 12px 32px 12px 0;
+    cursor: none;
+    line-height: 1.2;
+  }
+  .client-name:hover { color: var(--fg); }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 120px 48px;
+    border-top: 1px solid var(--fg-muted);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-title {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .about-title .outline {
+    -webkit-text-stroke: 1.5px var(--fg);
+    color: transparent;
+  }
+
+  .about-body p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--fg-dim);
+    margin-bottom: 24px;
+  }
+  .about-body strong { color: var(--fg); font-weight: 400; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-top: 6px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 120px 48px 80px;
+    border-top: 1px solid var(--fg-muted);
+    text-align: center;
+  }
+
+  .contact-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .contact-eyebrow::before, .contact-eyebrow::after {
+    content: '';
+    display: block; width: 40px; height: 1px; background: var(--fg-muted);
+  }
+
+  .contact-heading {
+    font-family: var(--serif);
+    font-size: clamp(52px, 9vw, 130px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    margin-bottom: 48px;
+  }
+
+  .contact-email {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: clamp(20px, 3vw, 36px);
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--fg-muted);
+    padding-bottom: 4px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .contact-email:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--fg-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+  }
+  .footer-socials {
+    display: flex; gap: 24px;
+  }
+  .footer-socials a {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-socials a:hover { color: var(--fg); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    #hero { padding: 0 24px 48px; }
+    .hero-year { display: none; }
+    #projects, #services, #clients, #about, #contact { padding: 80px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-item { grid-column: span 1 !important; aspect-ratio: 16/9 !important; }
+    .services-layout { grid-template-columns: 1fr; gap: 48px; }
+    #about { grid-template-columns: 1fr; gap: 48px; }
+    footer { flex-direction: column; gap: 16px; padding: 24px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">969</a>
+  <ul class="nav-links">
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#projects">Events</a></li>
+    <li><a href="artists.html">Artists</a></li>
+    <li><a href="media.html">Media</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-year">San Francisco  Est. 2025</div>
+  <div class="hero-main">
+    <h1 class="hero-title">969<br><span class="outline">Studio</span></h1>
+    <div class="hero-meta">
+      <p class="hero-tagline">A San Francisco collective creating euphoric, high-energy dance spaces for the queer and underground community.</p>
+      <div class="hero-scroll">Scroll to explore</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><span>✦</span> Hardgroove</span>
+    <span class="ticker-item"><span>✦</span> Schranz</span>
+    <span class="ticker-item"><span>✦</span> Industrial</span>
+    <span class="ticker-item"><span>✦</span> Hard Techno</span>
+    <span class="ticker-item"><span>✦</span> Bounce</span>
+    <span class="ticker-item"><span>✦</span> Eurodance</span>
+    <span class="ticker-item"><span>✦</span> Queer Underground</span>
+    <span class="ticker-item"><span>✦</span> San Francisco</span>
+    <span class="ticker-item"><span>✦</span> Hardgroove</span>
+    <span class="ticker-item"><span>✦</span> Schranz</span>
+    <span class="ticker-item"><span>✦</span> Industrial</span>
+    <span class="ticker-item"><span>✦</span> Hard Techno</span>
+    <span class="ticker-item"><span>✦</span> Bounce</span>
+    <span class="ticker-item"><span>✦</span> Eurodance</span>
+    <span class="ticker-item"><span>✦</span> Queer Underground</span>
+    <span class="ticker-item"><span>✦</span> San Francisco</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header reveal">
+    <div>
+      <div class="section-label">Selected Events</div>
+      <h2 class="projects-title">Events</h2>
+    </div>
+    <div class="projects-count">04 Events</div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- 1: Jade To Dusk -->
+    <a href="https://ra.co/events/2406102" target="_blank" rel="noopener" class="project-item reveal" style="text-decoration:none;color:inherit;">
+      <div class="project-placeholder">
+        <img src="jade-to-dusk.jpg" alt="Jade To Dusk" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Open Air · Secret Location, SF</div>
+        <div class="project-name">Jade To Dusk<br>969</div>
+        <div class="project-year">Suanni, Ghostcode, Brute, Ayatko, Amy</div>
+      </div>
+    </a>
+
+    <!-- 2: PublicWorks -->
+    <div class="project-item reveal" style="transition-delay:0.1s;cursor:none;" onclick="window.open('https://www.instagram.com/p/DSERIgbFPMO/','_blank')">
+      <div class="project-placeholder">
+        <div class="stripe-bg" style="background-image:url('publicworks-event.jpg');background-size:cover;background-position:center;"></div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Club · Public Works, SF</div>
+        <div class="project-name">Somewhen, Franck &amp; MCYL<br>PublicWorks x 969</div>
+        <div class="project-year">Somewhen, Franck, MCYL, Suanni, Damented</div>
+      </div>
+    </div>
+
+    <!-- 3: Ashes of Eden -->
+    <div class="project-item reveal" style="transition-delay:0.05s;cursor:none;" onclick="window.open('https://www.instagram.com/reel/DOG5g8XCSxl/','_blank')">
+      <div class="project-placeholder">
+        <div class="stripe-bg" style="background-image:url('ashes-of-eden.jpg');background-size:cover;background-position:center;"></div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Open Air · Secret Location, SF</div>
+        <div class="project-name">Ashes of Eden<br>969</div>
+        <div class="project-year">Suanni, Damented, JustJovani, Merdok</div>
+      </div>
+    </div>
+
+    <!-- 4: 969 Techno -->
+    <div class="project-item reveal" style="transition-delay:0.1s;cursor:none;" onclick="window.open('https://www.instagram.com/p/DItyt2QppRQ/','_blank')">
+      <div class="project-placeholder">
+        <div class="stripe-bg" style="background-image:url('969-flyer.jpg');background-size:cover;background-position:center;"></div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Club · Mr. Mahjong, SF</div>
+        <div class="project-name">969</div>
+        <div class="project-year">Suanni, CHRI5PY, Femme Jatale, Jarvis</div>
+      </div>
+    </div>
+
+    <!-- 5: Placeholder -->
+    <div class="project-item reveal" style="transition-delay:0.15s;cursor:none;" onclick="window.open('https://www.instagram.com/969.mix','_blank')">
+      <div class="project-placeholder">
+        <div class="stripe-bg" style="background-image:url('next-event.jpg');background-size:cover;background-position:center;"></div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Coming Soon</div>
+        <div class="project-name">Next Event<br>TBA</div>
+        <div class="project-year">Follow to stay updated</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label reveal">What We Do</div>
+  <h2 class="projects-title reveal" style="margin-top:16px;transition-delay:0.1s">The Experience</h2>
+  <div class="services-layout">
+    <div class="services-intro reveal">
+      Part rave, part fever dream, <em>always full of love.</em> We blend hardgroove, schranz, industrial, hard techno, bounce, eurodance, and futuristic visuals into nights that feel like a <em>third place.</em>
+    </div>
+    <div class="services-list reveal" style="transition-delay:0.15s">
+      <div class="service-row">
+        <span class="service-name">Event Production</span>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-row">
+        <span class="service-name">Music Curation</span>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-row">
+        <span class="service-name">Audiovisual Direction</span>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-row">
+        <span class="service-name">Queer Community Space</span>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-row">
+        <span class="service-name">Futuristic Visuals</span>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-row">
+        <span class="service-name">Underground Culture</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIND US -->
+<section id="clients">
+  <div class="section-label reveal">Find Us</div>
+  <div class="clients-grid reveal" style="transition-delay:0.15s">
+    <a href="https://ra.co/promoters/162452" target="_blank" class="client-name" style="text-decoration:none">Resident Advisor</a>
+    <a href="https://www.instagram.com/969.mix" target="_blank" class="client-name" style="text-decoration:none">Instagram</a>
+    <a href="https://forms.gle/hyhGaXx7peJW6oid6" target="_blank" rel="noopener" class="client-name" style="text-decoration:none">Bookings</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-title reveal">
+    About<br>the<br><span class="outline">Studio</span>
+  </div>
+  <div class="about-right">
+    <div class="about-body reveal" style="transition-delay:0.15s">
+      <p><strong>Suanni</strong> hosted the first 969 event at Mr. Mahjongs alone and honestly, it was really hard. Since then we've come a long way from that first night to throwing Ashes of Eden renegade, and hosting some of the largest techno artists from the EU.</p>
+      <p>We're thankful to see our community continue to grow. To bring together amazing talent, the most beautiful people and energy, and ultimately create <strong>a safe space where people can truly be themselves</strong> and find a way to connect with others.</p>
+      <p>Thank you to everyone who has supported this vision of what could be. Forever thankful and grateful.</p>
+
+    </div>
+    <div class="about-stats reveal" style="transition-delay:0.25s">
+      <div>
+        <div class="stat-num">1+</div>
+        <div class="stat-label">Years of craft</div>
+      </div>
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Events Delivered</div>
+      </div>
+      <div>
+        <div class="stat-num">SF</div>
+        <div class="stat-label">Based in San Francisco</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Creative possibilities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-eyebrow reveal">Come through</div>
+  <h2 class="contact-heading reveal">Show<br>up.</h2>
+  <div class="reveal" style="transition-delay:0.2s">
+    <a href="mailto:mgmt@969label.com" class="contact-email">Get in touch</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 969 Studio. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="terms.html" target="_blank">Terms</a>
+    <a href="privacy.html" target="_blank">Privacy</a>
+    <a href="https://www.instagram.com/969.mix" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR ──
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// hover effect on interactive elements
+document.querySelectorAll('a, .project-item, .service-row, .client-name, button').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// ── PARALLAX HERO ──
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const title = document.querySelector('.hero-title');
+  if (title) title.style.transform = `translateY(${y * 0.18}px)`;
+});
+</script>
+</body>
+</html>

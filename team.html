@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — 969</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080808;
+    --fg: #f0eee9;
+    --fg-dim: rgba(240,238,233,0.45);
+    --fg-muted: rgba(240,238,233,0.15);
+    --accent: #D8E63C;
+    --serif: 'Syne', sans-serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { background: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  }
+
+  #cursor-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--fg); position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(240,238,233,0.5);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+  body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
+  body.cursor-hover #cursor-ring { width: 60px; height: 60px; opacity: 0.6; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 48px;
+    mix-blend-mode: difference;
+  }
+  .nav-logo {
+    font-family: var(--serif); font-weight: 800; font-size: 20px;
+    letter-spacing: 0.08em; color: var(--fg); text-decoration: none; text-transform: uppercase;
+  }
+  .nav-back {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg); text-decoration: none; opacity: 0.7; transition: opacity 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-back:hover { opacity: 1; }
+  .nav-back::before { content: '←'; }
+
+  /* ── FOUNDER HERO ── */
+  .founder-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .founder-image {
+    position: relative;
+    overflow: hidden;
+  }
+  .founder-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(15%);
+    transition: filter 0.5s;
+  }
+  .founder-image:hover img { filter: grayscale(0%); }
+
+  .founder-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 64px 64px;
+    border-left: 1px solid var(--fg-muted);
+  }
+
+  .section-label {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--fg-dim); display: flex; align-items: center; gap: 16px;
+    margin-bottom: 48px;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--fg-dim); }
+
+  .founder-eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .founder-name {
+    font-family: var(--serif);
+    font-size: clamp(72px, 10vw, 130px);
+    font-weight: 800; line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  .founder-name .line {
+    display: block;
+  }
+  .founder-name .outline {
+    -webkit-text-stroke: 1.5px var(--fg);
+    color: transparent;
+  }
+  .founder-bio {
+    margin-top: 40px;
+    font-size: 15px; line-height: 1.8;
+    color: var(--fg-dim); max-width: 420px;
+  }
+
+  /* ── TEAM ROWS ── */
+  .team-section {
+    border-top: 1px solid var(--fg-muted);
+  }
+
+  .team-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--fg-muted);
+  }
+
+  .team-member {
+    padding: 40px 40px 48px;
+    border-right: 1px solid var(--fg-muted);
+    cursor: none;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .team-member:last-child { border-right: none; }
+  .team-member:hover { background: rgba(240,238,233,0.02); }
+  .team-member:hover .member-name { color: var(--accent); }
+
+  .member-num {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: var(--fg-muted); margin-bottom: 48px;
+  }
+
+  /* Photo placeholder */
+  .member-photo {
+    width: 100%; aspect-ratio: 3/4;
+    background: repeating-linear-gradient(
+      135deg, #141414 0px, #141414 10px, #1a1a1a 10px, #1a1a1a 20px
+    );
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Courier New', monospace; font-size: 9px;
+    color: rgba(255,255,255,0.15); letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .member-photo img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    display: block;
+  }
+
+  .member-role {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .member-name {
+    font-family: var(--serif); font-weight: 700;
+    font-size: clamp(24px, 2.5vw, 34px);
+    line-height: 1; letter-spacing: -0.02em;
+    transition: color 0.2s;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 48px; border-top: 1px solid var(--fg-muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 12px; color: var(--fg-dim); letter-spacing: 0.05em; }
+  .footer-socials a {
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--fg-dim); text-decoration: none; transition: color 0.2s;
+  }
+  .footer-socials a:hover { color: var(--fg); }
+
+  /* Animations */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Founder image — subtle ken burns zoom */
+  @keyframes kenBurns {
+    0%   { transform: scale(1.0) translate(0,0); }
+    50%  { transform: scale(1.06) translate(-1%, -1%); }
+    100% { transform: scale(1.0) translate(0,0); }
+  }
+  .founder-image img {
+    animation: kenBurns 18s ease-in-out infinite;
+  }
+  .founder-image:hover img { animation-play-state: paused; }
+
+  /* Founder name — line slide up */
+  .founder-name {
+    overflow: hidden;
+    padding-bottom: 0.08em;
+  }
+  .founder-name .line {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1.0s cubic-bezier(0.23,1,0.32,1);
+  }
+  .founder-hero.in .founder-name .line { transform: translateY(0); }
+  .founder-hero.in .founder-name .line:nth-child(2) { transition-delay: 0.12s; }
+
+  .founder-eyebrow,
+  .founder-bio {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .founder-hero.in .founder-eyebrow { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  .founder-hero.in .founder-bio { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+
+  /* Section label — underline draw */
+  .section-label::before {
+    transition: width 0.8s cubic-bezier(0.23,1,0.32,1);
+    width: 0;
+  }
+  .section-label.in::before { width: 24px; }
+
+  /* Team member — richer hover */
+  .team-member {
+    transition: background 0.5s cubic-bezier(0.23,1,0.32,1);
+  }
+  .team-member::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .team-member:hover::after { transform: scaleX(1); }
+  .team-member .member-photo,
+  .team-member .member-photo img {
+    transition: transform 0.8s cubic-bezier(0.23,1,0.32,1), filter 0.5s;
+  }
+  .team-member:hover .member-photo img { transform: scale(1.06); }
+  .team-member:hover .member-photo { filter: brightness(1.1); }
+
+  /* Member name — slight shift + accent color on hover */
+  .member-name {
+    transition: color 0.3s, transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  .team-member:hover .member-name {
+    color: var(--accent);
+    transform: translateX(6px);
+  }
+  .team-member:hover .member-role {
+    transform: translateX(6px);
+  }
+  .member-role {
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  /* Staggered team reveal */
+  .team-member {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1), background 0.5s;
+  }
+  .team-member.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .team-member.in:nth-child(1) { transition-delay: 0.05s; }
+  .team-member.in:nth-child(2) { transition-delay: 0.15s; }
+  .team-member.in:nth-child(3) { transition-delay: 0.25s; }
+  .team-member.in:nth-child(4) { transition-delay: 0.35s; }
+  .team-member.in:nth-child(5) { transition-delay: 0.45s; }
+
+  /* Member number subtle blink */
+  @keyframes pulseNum {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .team-member:hover .member-num {
+    animation: pulseNum 1.4s ease-in-out infinite;
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    /* Disable custom cursor on touch */
+    #cursor-dot, #cursor-ring { display: none; }
+    body, body.cursor-hover, a, button { cursor: auto !important; }
+
+    nav { padding: 16px 20px; }
+    .nav-logo, .nav-back { font-size: 11px; }
+
+    .founder-hero { grid-template-columns: 1fr; min-height: auto; }
+    .founder-image { height: 80vw; max-height: 520px; }
+    .founder-info { padding: 32px 20px; border-left: none; border-top: 1px solid var(--fg-muted); }
+    .founder-name { font-size: clamp(56px, 16vw, 96px) !important; }
+    .founder-role { font-size: 10px; }
+    .founder-bio { font-size: 14px; line-height: 1.7; max-width: 100%; }
+
+    .team-row { grid-template-columns: repeat(2, 1fr); }
+    .team-member { padding: 20px 16px; min-height: 240px; }
+    .team-member:nth-child(2n) { border-right: none; }
+    .team-member:nth-child(3n),
+    .team-member:nth-child(5n) { border-right: 1px solid var(--fg-muted); }
+
+    footer { flex-direction: column; gap: 16px; padding: 20px; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .team-row { grid-template-columns: 1fr 1fr; }
+    .founder-info { padding: 28px 16px; }
+  }
+
+  /* Hamburger menu */
+  .mobile-menu-btn {
+    display: none; background: none; border: none;
+    padding: 8px; cursor: pointer; width: 32px; height: 32px;
+    flex-direction: column; justify-content: center; gap: 5px;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu-btn span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--fg); transition: transform 0.3s, opacity 0.3s;
+  }
+  .mobile-menu-btn:hover { opacity: 0.7; }
+  .mobile-menu-btn.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .mobile-menu-btn.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu-btn { position: relative; z-index: 10000; }
+  .mobile-menu {
+    position: fixed; inset: 0; background: var(--bg);
+    z-index: 999; display: none; flex-direction: column;
+    padding: 80px 24px 40px; opacity: 0; transition: opacity 0.3s;
+  }
+  .mobile-menu.open { display: flex; opacity: 1; }
+  .mobile-menu a {
+    color: var(--fg); text-decoration: none;
+    font-family: var(--serif); font-weight: 700;
+    font-size: clamp(36px, 9vw, 56px); line-height: 1.2;
+    letter-spacing: -0.02em; padding: 12px 0;
+    border-bottom: 1px solid var(--fg-muted); transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent, #D8E63C); }
+  .mobile-menu-close {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: 1px solid var(--fg-muted);
+    color: var(--fg); padding: 10px 14px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .mobile-menu-footer {
+    margin-top: auto; padding-top: 32px;
+    display: flex; flex-direction: column; gap: 12px;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+  @media (max-width: 900px) {
+    .mobile-menu-btn { display: flex; }
+    .nav-back { display: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">969</a>
+  <a href="index.html" class="nav-back">Back to home</a>
+  <button class="mobile-menu-btn" onclick="this.classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="index.html#about">Our Story</a>
+  <a href="index.html#projects">Events</a>
+  <a href="artists.html">Artists</a>
+  <a href="media.html">Media</a>
+  <a href="team.html">Team</a>
+  <a href="index.html#contact">Contact</a>
+  <div class="mobile-menu-footer">
+    <div>San Francisco — Est. 2025</div>
+    <div><a href="https://www.instagram.com/969.mix" target="_blank" style="color:inherit;border:none;font-family:inherit;font-weight:inherit;font-size:inherit;padding:0;">@969.mix</a></div>
+  </div>
+</div>
+
+
+<!-- FOUNDER HERO -->
+<section class="founder-hero">
+  <a class="founder-image" href="https://www.instagram.com/suanni.969" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+    <img src="suanni.jpg" alt="Suanni">
+  </a>
+  <div class="founder-info">
+    <div class="section-label">The Team</div>
+    <div class="founder-eyebrow">Founder & Creative Director</div>
+    <h1 class="founder-name"><span class="line">Suanni</span><span class="line outline">969</span></h1>
+    <p class="founder-bio">The visionary behind 969. Started the collective from a single night at a local bar and built it into one of SF's most unique underground spaces.</p>
+  </div>
+</section>
+
+<!-- REST OF TEAM -->
+<div class="team-section">
+  <div class="team-row">
+
+    <a class="team-member reveal" href="https://www.instagram.com/mothmediasf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="member-num">002</div>
+      <div class="member-photo"><img src="karina.jpg" alt="Karina" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="member-role">Media & Content</div>
+      <div class="member-name">Karina</div>
+    </a>
+
+    <a class="team-member reveal" href="https://www.instagram.com/absentislux/" target="_blank" rel="noopener" style="transition-delay:0.08s;text-decoration:none;color:inherit;display:block;">
+      <div class="member-num">003</div>
+      <div class="member-photo"><img src="albert.jpg" alt="Albert" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="member-role">Media & Content</div>
+      <div class="member-name">Albert</div>
+    </a>
+
+    <div class="team-member reveal" style="transition-delay:0.16s">
+      <div class="member-num">004</div>
+      <div class="member-photo" style="background:#D6B4FC;"></div>
+      <div class="member-role">Media & Event Operations</div>
+      <div class="member-name">Carlos</div>
+    </div>
+
+    <a class="team-member reveal" href="https://www.instagram.com/sureyeaah/" target="_blank" rel="noopener" style="transition-delay:0.24s;text-decoration:none;color:inherit;display:block;">
+      <div class="member-num">005</div>
+      <div class="member-photo" style="background-image:url('shaurya.jpg');background-size:cover;background-position:center top;"></div>
+      <div class="member-role">Event Operations</div>
+      <div class="member-name">Shaurya</div>
+    </a>
+
+    <a class="team-member reveal" href="https://www.instagram.com/georgeluvhotmom/" target="_blank" rel="noopener" style="transition-delay:0.32s;text-decoration:none;color:inherit;display:block;">
+      <div class="member-num">006</div>
+      <div class="member-photo"><img src="george.jpg" alt="George" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="member-role">Event Operations</div>
+      <div class="member-name">George</div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 969. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/969.mix" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('a, .team-member').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Kick off founder hero on load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelector('.founder-hero')?.classList.add('in');
+    document.querySelector('.section-label')?.classList.add('in');
+  }, 200);
+});
+
+// Stagger team members
+const teamObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      teamObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.team-member').forEach(el => teamObserver.observe(el));
+document.querySelectorAll('.section-label').forEach(el => teamObserver.observe(el));
+</script>
+
+<script>/* close-menu-on-link */
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+    const btn = document.querySelector('.mobile-menu-btn');
+    if (btn) btn.classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
